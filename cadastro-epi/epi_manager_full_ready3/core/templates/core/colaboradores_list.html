@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3"><h3>Colaboradores</h3><a class="btn btn-primary" href="{% url 'core:colaboradores_create' %}">Novo</a></div>
+  <form class="row g-2 mb-3" method="get"><div class="col-auto"><input type="text" class="form-control" name="q" placeholder="Pesquisar..." value="{{ q }}"></div><div class="col-auto"><button class="btn btn-outline-primary">Buscar</button></div></form>
+  <div class="card shadow-sm"><div class="table-responsive"><table class="table table-hover mb-0">
+    <thead><tr><th>Nome</th><th>Matrícula</th><th>Cargo</th><th class="text-end">Ações</th></tr></thead>
+    <tbody>
+      {% for obj in objetos %}
+      <tr>
+        <td>{{ obj.nome }}</td><td>{{ obj.matricula }}</td><td>{{ obj.cargo }}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-warning" href="{% url 'core:colaboradores_update' obj.pk %}">Editar</a>
+          <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ obj.pk }}">Excluir</button>
+          {% url 'core:colaboradores_delete' obj.pk as del_url %}
+          {% include 'core/_delete_modal.html' with obj=obj label=obj.nome action=del_url %}
+        </td>
+      </tr>
+      {% empty %}<tr><td colspan="4" class="text-center">Nenhum registro</td></tr>{% endfor %}
+    </tbody>
+  </table></div></div>
+</div>{% endblock %}
