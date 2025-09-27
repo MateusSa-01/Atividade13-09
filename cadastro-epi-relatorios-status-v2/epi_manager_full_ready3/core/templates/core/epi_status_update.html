@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+  <h3 class="mb-3">{{ titulo }}</h3>
+  <div class="card p-3 shadow-sm mb-3">
+    <div class="row g-2">
+      <div class="col-md-6"><label class="form-label">Colaborador</label><input class="form-control" value="{{ epi.colaborador.nome }}" disabled></div>
+      <div class="col-md-6"><label class="form-label">Equipamento</label><input class="form-control" value="{{ epi.equipamento.nome }}" disabled></div>
+      <div class="col-md-6"><label class="form-label">Data do Empréstimo</label><input class="form-control" value="{{ epi.data_entrega|date:'d/m/Y H:i' }}" disabled></div>
+      <div class="col-md-6"><label class="form-label">Data Prevista da Devolução</label><input class="form-control" value="{{ epi.data_prevista_devolucao|date:'d/m/Y H:i' }}" disabled></div>
+    </div>
+  </div>
+  <form method="post" class="card p-3 shadow-sm">{% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="row g-3">
+      <div class="col-md-4">{{ form.status.label_tag }} {{ form.status }}</div>
+      <div class="col-md-4">{{ form.data_devolucao.label_tag }} {{ form.data_devolucao }}</div>
+      <div class="col-12">{{ form.observacao_devolucao.label_tag }} {{ form.observacao_devolucao }}</div>
+    </div>
+    <div class="mt-3 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Salvar</button>
+      <a class="btn btn-secondary" href="{% url 'core:relatorios' %}">Voltar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
